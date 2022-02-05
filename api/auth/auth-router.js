@@ -49,10 +49,12 @@ function passwordUsernameRequired (req, res, next) {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = makeToken(user)
         res.status(200).json({
-          message: `Welcome, ${user.username}...`
+          message: `Welcome back, ${user.username}...`
         })
       } else {
-        next({ status: 401, message: 'Invalid Credentials' })
+        next(res.status(401).json({
+          message: `Invalid credentials`
+        }))
       }
     })
     .catch(next)
